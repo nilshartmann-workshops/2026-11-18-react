@@ -6,7 +6,8 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vite";
 
 // Nach dem Umschalten muss der Devserver neu gestartet werden.
-const enableReactCompiler = false;
+// 🕵️‍♂️ Zeigen: Kind B rendert nicht mehr mit, das useCallback vor dem Memo-Kind ist entbehrlich
+const enableReactCompiler = true;
 
 // https://vite.dev/config/
 export default defineConfig({
