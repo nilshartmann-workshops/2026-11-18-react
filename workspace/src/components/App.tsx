@@ -1,4 +1,5 @@
 import { Plant } from "../types.ts";
+import IntervalSelector from "./IntervalSelector.tsx";
 import PlantCardList from "./PlantCardList.tsx";
 
 const allPlants: Plant[] = [
@@ -28,6 +29,9 @@ export default function App() {
   return (
     <div className={"AppContainer"}>
       <PlantCardList plants={allPlants} />
+      <form>
+        <IntervalSelector />
+      </form>
     </div>
   );
 }
