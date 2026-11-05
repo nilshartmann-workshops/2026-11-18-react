@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import RenderSpielwiese from "../spielwiese/RenderSpielwiese.tsx";
 import { Plant } from "../types.ts";
 import IntervalSelector from "./IntervalSelector.tsx";
 import PlantCardList from "./PlantCardList.tsx";
@@ -32,6 +33,10 @@ export default function App() {
 
   return (
     <div className={"AppContainer"}>
+      {/* 🕵️‍♂️ Zeigen: Zähler erhöhen und tippen, Kind A und B rendern mit, das Memo-Kind nicht */}
+      {/* 🕵️‍♂️ Zeigen: im Elements-Tab ändert sich trotzdem nur der eine Textknoten */}
+      {/* 🕵️‍♂️ Zeigen: useCallback in RenderSpielwiese entfernen, dann rendert das Memo-Kind mit */}
+      <RenderSpielwiese />
       <PlantCardList plants={allPlants} />
       <form>
         <IntervalSelector interval={interval} onIntervalChange={setInterval} />
