@@ -8,9 +8,13 @@ export default function PlantCardListLoader() {
     queryKey: ["plants", "list"],
     async queryFn() {
       const response = await fetch("http://localhost:7200/api/plants");
+      if (!response.ok) {
+        throw new Error(`Laden fehlgeschlagen: ${response.status}`);
+      }
       const body = await response.json();
       return PlantSchema.array().parse(body);
     },
+    retry: false,
   });
 
   return <PlantCardList plants={plants} />;
