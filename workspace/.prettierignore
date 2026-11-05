@@ -1,0 +1,5 @@
+pnpm-lock.yaml
+_generated*
+public/**/*.css
+*.md
+public/mockServiceWorker.js
