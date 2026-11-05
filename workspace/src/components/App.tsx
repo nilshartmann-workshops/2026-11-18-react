@@ -1,41 +1,25 @@
 import { useState } from "react";
 
-import BeetSpielwiese from "../spielwiese/BeetSpielwiese.tsx";
 import { Plant } from "../types.ts";
 import IntervalSelector from "./IntervalSelector.tsx";
 import PlantCardList from "./PlantCardList.tsx";
 
-const allPlants: Plant[] = [
-  {
-    id: "1",
-    name: "Aloe Vera",
-    location: "Schlafzimmer",
-    wateringInterval: 12,
-    lastWatered: "2025-06-16",
-  },
-  {
-    id: "2",
-    name: "Orchidee",
-    location: "Wohnzimmer",
-    wateringInterval: 1,
-  },
-  {
-    id: "3",
-    name: "Grüne Monstera",
-    location: "Wohnzimmer",
-    wateringInterval: 7,
-    lastWatered: "2025-06-20",
-  },
-];
-
 export default function App() {
   const [interval, setInterval] = useState<number>();
+  const [plants, setPlants] = useState<Plant[]>([]);
+
+  const loadPlants = async () => {
+    const response = await fetch("http://localhost:7200/api/plants");
+    const body: Plant[] = await response.json();
+    setPlants(body);
+  };
 
   return (
     <div className={"AppContainer"}>
-      {/* 🕵️‍♂️ Zeigen: Ablauf steht in spielwiese/BeetSpielwiese.md */}
-      <BeetSpielwiese />
-      <PlantCardList plants={allPlants} />
+      <button className={"primary"} onClick={loadPlants}>
+        Pflanzen laden
+      </button>
+      <PlantCardList plants={plants} />
       <form>
         <IntervalSelector interval={interval} onIntervalChange={setInterval} />
       </form>
