@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Plant } from "../types.ts";
 import IntervalSelector from "./IntervalSelector.tsx";
 import PlantCardList from "./PlantCardList.tsx";
@@ -26,11 +28,13 @@ const allPlants: Plant[] = [
 ];
 
 export default function App() {
+  const [interval, setInterval] = useState<number>();
+
   return (
     <div className={"AppContainer"}>
       <PlantCardList plants={allPlants} />
       <form>
-        <IntervalSelector />
+        <IntervalSelector interval={interval} onIntervalChange={setInterval} />
       </form>
     </div>
   );
