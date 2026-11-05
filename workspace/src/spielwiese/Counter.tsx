@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Zwei Zähler, aber nur einer davon interessiert den Effekt.
- *
- * ⚠️ Das Gerüst ist fertig: zwei States, zwei Buttons, die Anzeige. Was noch
- *    fehlt, ist der `useEffect` an der Stelle mit dem `todo`. Ohne ihn macht
- *    diese Komponente nichts weiter als zählen.
  */
 export default function Counter() {
   const [appleCount, setAppleCount] = useState(0);
   const [orangeCount, setOrangeCount] = useState(0);
 
-  // todo: Hier kommt der Effekt hin, der den Titel des Browser-Tabs
-  //       auf den aktuellen appleCount setzt, samt Dependency-Array und
-  //       Aufräum-Funktion.
+  useEffect(() => {
+    const previousTitle = window.document.title;
+
+    const formatTitle = () =>
+      appleCount === 1 ? "1 Apfel" : `${appleCount} Äpfel`;
+
+    console.log("Effekt läuft!", new Date().toLocaleTimeString());
+    window.document.title = formatTitle();
+
+    return () => {
+      console.log("Aufräumen!");
+      window.document.title = previousTitle;
+    };
+
+    // 🕵️‍♂️ Zeigen: Dependency-Array auf [] und auf "gar keins" umstellen
+    // 🕵️‍♂️ Zeigen: formatTitle über den Effekt ziehen und in die Dependencies
+    //    aufnehmen, dann läuft der Effekt bei jedem Render, auch bei den Orangen
+  }, [appleCount]);
 
   return (
     <div

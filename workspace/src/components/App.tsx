@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import EffektSpielwiese from "../spielwiese/EffektSpielwiese.tsx";
 import RenderSpielwiese from "../spielwiese/RenderSpielwiese.tsx";
 import { Plant } from "../types.ts";
 import IntervalSelector from "./IntervalSelector.tsx";
@@ -33,6 +34,8 @@ export default function App() {
 
   return (
     <div className={"AppContainer"}>
+      {/* 🕵️‍♂️ Erzählen: useEffect ist der letzte Ausweg, für Daten nimmt man eine Bibliothek */}
+      <EffektSpielwiese />
       {/* 🕵️‍♂️ Zeigen: Zähler erhöhen und tippen, Kind A und B rendern mit, das Memo-Kind nicht */}
       {/* 🕵️‍♂️ Zeigen: im Elements-Tab ändert sich trotzdem nur der eine Textknoten */}
       {/* 🕵️‍♂️ Zeigen: useCallback in RenderSpielwiese entfernen, dann rendert das Memo-Kind mit */}
