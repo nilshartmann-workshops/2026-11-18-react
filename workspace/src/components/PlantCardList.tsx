@@ -8,7 +8,9 @@ type PlantCardListProps = {
 };
 
 export default function PlantCardList({ plants }: PlantCardListProps) {
-  const { selectedLocations } = useLocationFilterStore();
+  const selectedLocations = useLocationFilterStore(
+    (state) => state.selectedLocations,
+  );
 
   const visiblePlants =
     selectedLocations.length === 0

@@ -23,3 +23,9 @@ export const useLocationFilterStore = create<LocationFilterStore>()((set) => {
     },
   };
 });
+
+// 🕵️‍♂️ Erzählen: eine Funktion, die den Selector für einen Standort zurückgibt
+export const selectIsSelected =
+  (location: string) =>
+  (state: LocationFilterStore): boolean =>
+    state.selectedLocations.includes(location);
