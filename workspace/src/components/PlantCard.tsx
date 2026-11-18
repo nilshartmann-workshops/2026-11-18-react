@@ -16,6 +16,8 @@ props = {
 }
  */
 
+import {getDaysUntilWatering} from "./date-utils.ts";
+
 type PlantCardProps = {
   name: string;
   location: string;
@@ -32,6 +34,19 @@ export default function PlantCard(
 
   // Fragment ?
   //
+  const wateringText =  wateringInterval === 1 ? "täglich gießen" : `Alle ${wateringInterval}  Tage gießen`;
+
+  const getLastWateredMessage = () => {
+    console.log(wateringText)
+    if (!lastWatered) {
+      return null;
+    }
+
+    const lastWateredClassName = getDaysUntilWatering(lastWatered, wateringInterval) > 4 ?
+      "error-message" : "success-message";
+
+    return <div className={lastWateredClassName}></div>
+  }
 
   return (
     <div className={"PlantCard"}>
@@ -40,6 +55,13 @@ export default function PlantCard(
         <div>📍 {location}</div>
       </header>
       <section>
+        {getLastWateredMessage()}
+        <div>
+          { wateringText }
+        </div>
+
+
+
         <div>{wateringInterval === 1 ? "täglich gießen" : `Alle ${wateringInterval} Tage gießen` }</div>
         { lastWatered ? <div>Zuletzt: {lastWatered}</div> : null }
       </section>
