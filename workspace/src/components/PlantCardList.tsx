@@ -8,16 +8,14 @@ type PlantCardListProps = {
 
 export default function PlantCardList({plants}: PlantCardListProps) {
 	// todo: Liste von Plant-Objekten rendern
+
 	return <div className={"PlantCardList"}>
 		{
 			plants.map(plant => {
 				return (
 					<PlantCard
 						key={plant.id}
-						name={plant.name}
-						location={plant.location}
-						wateringInterval={plant.wateringInterval}
-						lastWatered={plant.lastWatered}
+						{...plant}
 					/>
 				)
 			})
