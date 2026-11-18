@@ -17,12 +17,17 @@ props = {
  */
 
 import {getDaysUntilWatering} from "./date-utils.ts";
+import {Plant} from "../types.ts";
 
 type PlantCardProps = {
   name: string;
   location: string;
   wateringInterval: number
   lastWatered?: string
+
+  // plant: Plant
+
+  // ...
 }
 
 // JavaScript Ausdrücke   (Expression)   function()  String 2+2 null  ?-Operator JSX
