@@ -1,6 +1,7 @@
 import PlantCard from "./PlantCard.tsx";
 import {Plant} from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
+import IntervalSelector from "./IntervalSelector.tsx";
 
 // function AppAtRuntimeFalsch() {
 // 	return  React.createElement("PlantCard",
@@ -51,11 +52,13 @@ const allPlants: Plant[] = [
 	},
 ];
 
+// State bzw. Zustand (<-- Model)
 
 export default function App() {
 	return (
 		<div className={"AppContainer"}>
-			<PlantCardList plants={allPlants} />
+			<IntervalSelector />
+			{/*<PlantCardList plants={allPlants} />*/}
       {/*<PlantCard name={"Rose"}*/}
       {/*           location={"Küche"}*/}
       {/*           wateringInterval={1}*/}
