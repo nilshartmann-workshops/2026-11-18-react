@@ -9,7 +9,7 @@ import tseslint from "typescript-eslint";
 
 // Im Workshop lässt sich das auf "false" setzen, damit Meldungen zur
 // Reihenfolge der Importe nicht stören.
-const enableImportRules = true;
+const enableImportRules = false;
 
 const importRules = enableImportRules
   ? {

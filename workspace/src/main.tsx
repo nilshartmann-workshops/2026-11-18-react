@@ -1,4 +1,5 @@
 import "./index.css";
+
 import "./setup-dayjs.ts";
 
 import { createRoot } from "react-dom/client";
