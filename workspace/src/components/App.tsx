@@ -2,6 +2,7 @@ import PlantCard from "./PlantCard.tsx";
 import {Plant} from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
+import {Activity, useState} from "react";
 
 // function AppAtRuntimeFalsch() {
 // 	return  React.createElement("PlantCard",
@@ -55,9 +56,27 @@ const allPlants: Plant[] = [
 // State bzw. Zustand (<-- Model)
 
 export default function App() {
+
+	const [intervalSelectorVisible, setIntervalSelectorVisible] = useState(true);
+	const [value, setValue] = useState(0);
+
 	return (
 		<div className={"AppContainer"}>
-			<IntervalSelector />
+			<button type="button" className={"primary"} onClick={() => setIntervalSelectorVisible(!intervalSelectorVisible)}>
+				Ein-/Ausblenden
+			</button>
+			<button type="button"  className={"primary"}  onClick={() => setValue(value+1)}>Inkrement {value}</button>
+			{intervalSelectorVisible ? <IntervalSelector /> : null}
+
+			{/*<Activity mode={intervalSelectorVisible ? "visible" : "hidden"}>*/}
+			{/*  <IntervalSelector />*/}
+			{/*</Activity>*/}
+
+			{/*<div style={intervalSelectorVisible ? undefined: {display: "none"}}>*/}
+			{/*	<IntervalSelector />*/}
+			{/*</div>*/}
+
+			{/*{ intervalSelectorVisible && <IntervalSelector /> }*/}
 			{/*<PlantCardList plants={allPlants} />*/}
       {/*<PlantCard name={"Rose"}*/}
       {/*           location={"Küche"}*/}
