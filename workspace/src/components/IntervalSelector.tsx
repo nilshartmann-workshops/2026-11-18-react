@@ -1,13 +1,22 @@
 import {useState} from "react";
 
-export default function IntervalSelector() {
+// Unkontrollierte Komponente
+// Kontrollierte Komponente
+
+type IntervalSelectorProps = {
+	intervalValue: number;
+	onIntervalValueChange(newIntervalValue: number): void
+}
+
+export default function IntervalSelector({intervalValue, onIntervalValueChange}:
+	IntervalSelectorProps) {
 
 	// let value = "Beispieltext"
 	// const state = useState("Beispieltext")
 	// const value = state[0];
 	// const setValue = state[1]
 
-	const [ intervalValue, setIntervalValue ] = useState(1)
+	// const [ intervalValue, setIntervalValue ] = useState(1)
 
 	console.log("IntervalSelector ausgeführt", intervalValue);
 
@@ -15,11 +24,14 @@ export default function IntervalSelector() {
 		Gießintervall: <input type={"number"}
 													value={intervalValue}
 													onChange={
-														(event) => { setIntervalValue(Number(event.target.value)) }
+														(event) => { onIntervalValueChange(Number(event.target.value)) }
 													}
                   	/>
+
 		                <div>Du musst alle {intervalValue} Tage gießen</div>
-		<button onClick={() => setIntervalValue(7)}>Wöchentlich gießen</button>
+
+		<button onClick={() => onIntervalValueChange(7)}>Wöchentlich gießen</button>
+		<button onClick={() => onIntervalValueChange(0)}>Zurücksetzen!</button>
 
 	</div>
 }
