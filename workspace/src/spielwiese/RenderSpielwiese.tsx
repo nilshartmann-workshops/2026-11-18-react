@@ -21,10 +21,6 @@ export default function RenderSpielwiese() {
   const [counter, setCounter] = useState(0);  //
   const [text, setText] = useState(""); //
 
-  if (counter === 3) {
-    const xxxx = useQuery("suchwort");
-  }
-
 
   //
   // const handleReset = useCallback(

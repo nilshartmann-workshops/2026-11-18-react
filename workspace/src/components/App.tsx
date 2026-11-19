@@ -3,6 +3,12 @@ import {Plant} from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
 import {Activity, useState} from "react";
+import RenderSpielwiese from "../spielwiese/RenderSpielwiese.tsx";
+import EffektSpielwiese from "../spielwiese/EffektSpielwiese.tsx";
+import BeetSpielwiese from "../spielwiese/BeetSpielwiese.tsx";
+
+// @components
+//  import ... from "@components/..."
 
 // function AppAtRuntimeFalsch() {
 // 	return  React.createElement("PlantCard",
@@ -47,7 +53,7 @@ const allPlants: Plant[] = [
 	{
 		id: "3",
 		name: "Grüne Monstera",
-		location: "Wohnzimmer",
+		location: "Küche",
 		wateringInterval: 7,
 		lastWatered: "2025-06-20",
 	},
@@ -57,37 +63,12 @@ const allPlants: Plant[] = [
 
 export default function App() {
 
-	const [intervalSelectorVisible, setIntervalSelectorVisible] = useState(true);
-	const [value, setValue] = useState(0);
-
 	return (
 		<div className={"AppContainer"}>
-			<button type="button" className={"primary"} onClick={() => setIntervalSelectorVisible(!intervalSelectorVisible)}>
-				Ein-/Ausblenden
-			</button>
-			<button type="button"  className={"primary"}  onClick={() => setValue(value+1)}>Inkrement {value}</button>
-			{intervalSelectorVisible ? <IntervalSelector /> : null}
-
-			{/*<Activity mode={intervalSelectorVisible ? "visible" : "hidden"}>*/}
-			{/*  <IntervalSelector />*/}
-			{/*</Activity>*/}
-
-			{/*<div style={intervalSelectorVisible ? undefined: {display: "none"}}>*/}
-			{/*	<IntervalSelector />*/}
-			{/*</div>*/}
-
-			{/*{ intervalSelectorVisible && <IntervalSelector /> }*/}
-			{/*<PlantCardList plants={allPlants} />*/}
-      {/*<PlantCard name={"Rose"}*/}
-      {/*           location={"Küche"}*/}
-      {/*           wateringInterval={1}*/}
-      {/*/>*/}
-
-      {/*<PlantCard name={"Aloe Vera"}*/}
-      {/*           location={"Schlafzimmer"}*/}
-      {/*           wateringInterval={7}*/}
-      {/*           lastWatered={"2026-11-16"}*/}
-      {/*/>*/}
+			{/*<EffektSpielwiese />*/}
+			{/*<BeetSpielwiese />*/}
+			{/*<RenderSpielwiese />*/}
+			<PlantCardList plants={allPlants} />
 		</div>
 
    )
