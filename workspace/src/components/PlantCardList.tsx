@@ -12,6 +12,7 @@ export default function PlantCardList({ plants }: PlantCardListProps) {
 	const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
 	const toggleLocation = (location: string) => {
+
 		setSelectedLocations(
 			selectedLocations.includes(location)
 				? selectedLocations.filter((l) => l !== location)
