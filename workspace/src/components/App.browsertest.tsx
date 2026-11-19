@@ -66,3 +66,30 @@ test("shows an error when loading fails", async () => {
     .element(screen.getByText("Fehler beim Laden der Pflanzen 🥀"))
     .toBeVisible();
 });
+
+test("shows a new plant in the list after saving", async () => {
+  const savedPlants = [...plants];
+  worker.use(
+    http.get("http://localhost:7200/api/plants", () =>
+      HttpResponse.json(savedPlants),
+    ),
+    http.post<never, Omit<Plant, "id">, Plant>(
+      "http://localhost:7200/api/plants",
+      async ({ request }) => {
+        const plant = { id: "99", ...(await request.json()) };
+        savedPlants.push(plant);
+        return HttpResponse.json(plant);
+      },
+    ),
+  );
+
+  const screen = await renderApp();
+  await expect.element(screen.getByText("Aloe Vera")).toBeVisible();
+
+  await screen.getByLabelText("Name der Pflanze").fill("Ficus");
+  await screen.getByLabelText("Standort").selectOptions("Küche");
+  await screen.getByRole("button", { name: "Wöchentlich" }).click();
+  await screen.getByRole("button", { name: /Pflanze hinzufügen/ }).click();
+
+  await expect.element(screen.getByText("Ficus")).toBeVisible();
+});
