@@ -1,25 +1,46 @@
-import {Plant} from "../types.ts";
+import { useState } from "react";
+
+import { Plant } from "../types.ts";
+import LocationFilter from "./LocationFilter.tsx";
 import PlantCard from "./PlantCard.tsx";
-import {Fragment} from "react";
 
 type PlantCardListProps = {
-	plants: Plant[]
-}
+	plants: Plant[];
+};
 
-export default function PlantCardList({plants}: PlantCardListProps) {
-	// todo: Liste von Plant-Objekten rendern
+export default function PlantCardList({ plants }: PlantCardListProps) {
+	const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
 
-	return <div className={"PlantCardList"}>
-		{
-			plants.map(plant => {
-				return (
+	const toggleLocation = (location: string) => {
+		setSelectedLocations(
+			selectedLocations.includes(location)
+				? selectedLocations.filter((l) => l !== location)
+				: [...selectedLocations, location],
+		);
+	};
+
+	const visiblePlants =
+		selectedLocations.length === 0
+			? plants
+			: plants.filter((p) => selectedLocations.includes(p.location));
+
+	return (
+		<>
+			<LocationFilter
+				selectedLocations={selectedLocations}
+				onLocationToggle={toggleLocation}
+			/>
+			<div className={"PlantCardList"}>
+				{visiblePlants.map((p) => (
 					<PlantCard
-						key={plant.id}
-						{...plant}
+						key={p.id}
+						name={p.name}
+						location={p.location}
+						wateringInterval={p.wateringInterval}
+						lastWatered={p.lastWatered}
 					/>
-				)
-			})
-		}
-
-	</div>;
+				))}
+			</div>
+		</>
+	);
 }
