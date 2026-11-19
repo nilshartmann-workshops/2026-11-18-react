@@ -1,5 +1,6 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { type FormEvent, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { PlantSchema } from "../types.ts";
@@ -23,15 +24,10 @@ const PlantFormSchema = z.object({
 });
 type PlantFormState = z.infer<typeof PlantFormSchema>;
 
-// Je Feld die Meldungen aus zod, angezeigt wird jeweils die erste
-type PlantFormErrors = { [Field in keyof PlantFormState]?: string[] };
-
 export default function PlantForm() {
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [wateringInterval, setWateringInterval] = useState<number>();
-  const [lastWatered, setLastWatered] = useState("");
-  const [errors, setErrors] = useState<PlantFormErrors>({});
+  const form = useForm({
+    resolver: zodResolver(PlantFormSchema),
+  });
 
   const queryClient = useQueryClient();
 
@@ -56,55 +52,24 @@ export default function PlantForm() {
     mutation.mutate(data);
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    // Ohne preventDefault schickt der Browser das Formular selbst ab und lädt die Seite neu
-    e.preventDefault();
-
-    const result = PlantFormSchema.safeParse({
-      name,
-      location,
-      wateringInterval,
-      // Ein leeres Datumsfeld liefert "", das Schema erwartet dann undefined
-      lastWatered: lastWatered === "" ? undefined : lastWatered,
-    });
-
-    if (!result.success) {
-      setErrors(z.flattenError(result.error).fieldErrors);
-      return;
-    }
-
-    setErrors({});
-    handleSave(result.data);
-  };
-
-  const handleReset = () => {
-    setName("");
-    setLocation("");
-    setWateringInterval(undefined);
-    setLastWatered("");
-    setErrors({});
-  };
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={form.handleSubmit(handleSave)}>
       <div className={"FormControl"}>
         <label htmlFor={"name"}>Name der Pflanze</label>
         <input
           id={"name"}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className={errors.name ? "error" : undefined}
+          {...form.register("name")}
+          className={form.formState.errors.name ? "error" : undefined}
         />
-        <ErrorMessage msg={errors.name?.[0]} />
+        <ErrorMessage msg={form.formState.errors.name?.message} />
       </div>
 
       <div className={"FormControl"}>
         <label htmlFor={"location"}>Standort</label>
         <select
           id={"location"}
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className={errors.location ? "error" : undefined}
+          {...form.register("location")}
+          className={form.formState.errors.location ? "error" : undefined}
         >
           <option value="">Standort wählen...</option>
           {locations.map((location) => (
@@ -113,13 +78,19 @@ export default function PlantForm() {
             </option>
           ))}
         </select>
-        <ErrorMessage msg={errors.location?.[0]} />
+        <ErrorMessage msg={form.formState.errors.location?.message} />
       </div>
 
-      <IntervalSelector
-        interval={wateringInterval}
-        onIntervalChange={setWateringInterval}
-        error={errors.wateringInterval?.[0]}
+      <Controller
+        control={form.control}
+        name={"wateringInterval"}
+        render={({ field, fieldState }) => (
+          <IntervalSelector
+            interval={field.value}
+            onIntervalChange={field.onChange}
+            error={fieldState.error?.message}
+          />
+        )}
       />
 
       <div className={"FormControl"}>
@@ -127,15 +98,20 @@ export default function PlantForm() {
         <input
           id={"lastWatered"}
           type={"date"}
-          value={lastWatered}
-          onChange={(e) => setLastWatered(e.target.value)}
-          className={errors.lastWatered ? "error" : undefined}
+          {...form.register("lastWatered", {
+            setValueAs: (value) => (value === "" ? undefined : value),
+          })}
+          className={form.formState.errors.lastWatered ? "error" : undefined}
         />
-        <ErrorMessage msg={errors.lastWatered?.[0]} />
+        <ErrorMessage msg={form.formState.errors.lastWatered?.message} />
       </div>
 
       <div className={"FormButtons"}>
-        <button type={"button"} className={"secondary"} onClick={handleReset}>
+        <button
+          type={"button"}
+          className={"secondary"}
+          onClick={() => form.reset()}
+        >
           Eingaben löschen 🧹
         </button>
         <button
