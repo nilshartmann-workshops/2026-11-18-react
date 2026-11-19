@@ -1,12 +1,10 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import IntervalSelector from "./IntervalSelector.tsx";
 import PlantCardListLoader from "./PlantCardListLoader.tsx";
+import PlantForm from "./PlantForm.tsx";
 
 export default function App() {
-  const [interval, setInterval] = useState<number>();
-
   return (
     <div className={"AppContainer"}>
       <ErrorBoundary
@@ -24,9 +22,7 @@ export default function App() {
           <PlantCardListLoader />
         </Suspense>
       </ErrorBoundary>
-      <form>
-        <IntervalSelector interval={interval} onIntervalChange={setInterval} />
-      </form>
+      <PlantForm />
     </div>
   );
 }
