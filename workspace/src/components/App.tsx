@@ -6,6 +6,8 @@ import {Activity, createContext, useState} from "react";
 import RenderSpielwiese from "../spielwiese/RenderSpielwiese.tsx";
 import EffektSpielwiese from "../spielwiese/EffektSpielwiese.tsx";
 import BeetSpielwiese from "../spielwiese/BeetSpielwiese.tsx";
+import PlantCardListLoader from "./PlantCardListLoader.tsx";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 // @components
 //  import ... from "@components/..."
@@ -36,35 +38,42 @@ import BeetSpielwiese from "../spielwiese/BeetSpielwiese.tsx";
 // 	)
 // }
 
-const allPlants: Plant[] = [
-	{
-		id: "1",
-		name: "Aloe Vera",
-		location: "Schlafzimmer",
-		wateringInterval: 12,
-		lastWatered: "2025-06-16",
-	},
-	{
-		id: "2",
-		name: "Orchidee",
-		location: "Wohnzimmer",
-		wateringInterval: 1,
-	},
-	{
-		id: "3",
-		name: "Grüne Monstera",
-		location: "Küche",
-		wateringInterval: 7,
-		lastWatered: "2025-06-20",
-	},
-];
+// const allPlants: Plant[] = [
+// 	{
+// 		id: "1",
+// 		name: "Aloe Vera",
+// 		location: "Schlafzimmer",
+// 		wateringInterval: 12,
+// 		lastWatered: "2025-06-16",
+// 	},
+// 	{
+// 		id: "2",
+// 		name: "Orchidee",
+// 		location: "Wohnzimmer",
+// 		wateringInterval: 1,
+// 	},
+// 	{
+// 		id: "3",
+// 		name: "Grüne Monstera",
+// 		location: "Küche",
+// 		wateringInterval: 7,
+// 		lastWatered: "2025-06-20",
+// 	},
+// ];
 
 // State bzw. Zustand (<-- Model)
 
 export default function App() {
+
+	// const [allPlants, setAllPlants] = useState<Plant[]>([])
+
+	// TanStack Query (React Query)
+
+
 	return (
 		<div className={"AppContainer"}>
-				<PlantCardList plants={allPlants} />
+			<PlantCardListLoader />
+			<ReactQueryDevtools />
 		</div>
    )
 }
