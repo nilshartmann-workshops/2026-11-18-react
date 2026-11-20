@@ -3,11 +3,12 @@ import {Plant, PlantSchema} from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 
 export default function PlantCardListLoader() {
+
 	const result = useSuspenseQuery(
 		{
 			queryKey: ["plants", "list"],
 			async queryFn() {
-				const response = await fetch("http://localhost:7200/api/plants");
+				const response = await fetch("http://localhost:7200/api/plants/1");
 				const result = await response.json();
 				const plants = PlantSchema.array().parse(result)
 				return plants;

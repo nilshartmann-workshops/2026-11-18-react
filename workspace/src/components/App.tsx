@@ -1,13 +1,7 @@
-import PlantCard from "./PlantCard.tsx";
-import {Plant} from "../types.ts";
-import PlantCardList from "./PlantCardList.tsx";
-import IntervalSelector from "./IntervalSelector.tsx";
-import {Activity, createContext, useState} from "react";
-import RenderSpielwiese from "../spielwiese/RenderSpielwiese.tsx";
-import EffektSpielwiese from "../spielwiese/EffektSpielwiese.tsx";
-import BeetSpielwiese from "../spielwiese/BeetSpielwiese.tsx";
+import {Activity, createContext, Suspense, useState} from "react";
 import PlantCardListLoader from "./PlantCardListLoader.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {ErrorBoundary} from "react-error-boundary";
 
 // @components
 //  import ... from "@components/..."
@@ -66,13 +60,19 @@ import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 export default function App() {
 
 	// const [allPlants, setAllPlants] = useState<Plant[]>([])
-
 	// TanStack Query (React Query)
-
-
 	return (
 		<div className={"AppContainer"}>
-			<PlantCardListLoader />
+			<h1>Pflanzen Manager</h1>
+			<ErrorBoundary fallback={<div>Leider konnten die Daten nicht geladen werden :-(</div>} onError={err => {
+				console.error(err);
+			}}>
+				<Suspense fallback={<div className={"CardListFallback"}>Pflanzen werden geladen</div>}>
+					<PlantCardListLoader />
+				</Suspense>
+			</ErrorBoundary>
+			<h2>Impressum</h2>
+
 			<ReactQueryDevtools />
 		</div>
    )
