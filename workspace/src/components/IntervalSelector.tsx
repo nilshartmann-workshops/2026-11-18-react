@@ -1,37 +1,56 @@
-import {useState} from "react";
-
-// Unkontrollierte Komponente
-// Kontrollierte Komponente
+import { ChangeEvent } from "react";
 
 type IntervalSelectorProps = {
-	intervalValue: number;
-	onIntervalValueChange(newIntervalValue: number): void
-}
+  interval?: number;
+  onIntervalChange(newInterval: number): void;
+  error?: string;
+};
 
-export default function IntervalSelector({intervalValue, onIntervalValueChange}:
-	IntervalSelectorProps) {
+export default function IntervalSelector({
+  interval,
+  onIntervalChange,
+  error,
+}: IntervalSelectorProps) {
+  const handleIntervalChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onIntervalChange(Number(e.target.value));
+  };
 
-	// let value = "Beispieltext"
-	// const state = useState("Beispieltext")
-	// const value = state[0];
-	// const setValue = state[1]
-
-	// const [ intervalValue, setIntervalValue ] = useState(1)
-
-	console.log("IntervalSelector ausgeführt", intervalValue);
-
-	return <div>
-		Gießintervall: <input type={"number"}
-													value={intervalValue}
-													onChange={
-														(event) => { onIntervalValueChange(Number(event.target.value)) }
-													}
-                  	/>
-
-		                <div>Du musst alle {intervalValue} Tage gießen</div>
-
-		<button onClick={() => onIntervalValueChange(7)}>Wöchentlich gießen</button>
-		<button onClick={() => onIntervalValueChange(0)}>Zurücksetzen!</button>
-
-	</div>
+  return (
+    <div className={"FormControl"}>
+      <label>Gießintervall</label>
+      <input
+        type={"number"}
+        value={interval ?? ""}
+        onChange={handleIntervalChange}
+        className={error ? "error" : undefined}
+      />
+      <div className={"flex gap-x-2"}>
+        <button
+          type="button"
+          className={"sm"}
+          onClick={() => onIntervalChange(1)}
+        >
+          Täglich
+        </button>
+        <button
+          type="button"
+          className={"sm"}
+          onClick={() => onIntervalChange(7)}
+        >
+          Wöchentlich
+        </button>
+        <button
+          type="button"
+          className={"sm"}
+          onClick={() => onIntervalChange(14)}
+        >
+          Alle zwei Wochen
+        </button>
+      </div>
+      {error && <span className={"error-message"}>{error}</span>}
+      {interval !== undefined && (
+        <div className={"px-1 text-sm"}>Alle {interval} Tage gießen</div>
+      )}
+    </div>
+  );
 }
