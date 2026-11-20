@@ -61,23 +61,10 @@ const allPlants: Plant[] = [
 
 // State bzw. Zustand (<-- Model)
 
-const LocaleContext = createContext<{locale: string}>({locale: "de"});
-
 export default function App() {
-
-	const [locale, setLocale] = useState("de");
-
 	return (
 		<div className={"AppContainer"}>
-			{/*<EffektSpielwiese />*/}
-			{/*<BeetSpielwiese />*/}
-			{/*<RenderSpielwiese />*/}
-			<LocaleContext value={{locale: locale}}>
 				<PlantCardList plants={allPlants} />
-				<button onClick={() => setLocale("de")}>de</button>
-				<button onClick={() => setLocale("en")}>en</button>
-			</LocaleContext>
 		</div>
-
    )
 }
