@@ -1,4 +1,6 @@
 import {useLocationFilterStore} from "./useLocationFilterStore.ts";
+import LocationButton from "./LocationButton.tsx";
+import {memo} from "react";
 
 const locations = [
 	"Wohnzimmer",
@@ -9,23 +11,19 @@ const locations = [
 	"Flur",
 ];
 
-export default function LocationFilter() {
+const LocationFilter = memo(function LocationFilter() {
 
-	const store = useLocationFilterStore();
+	console.log("LocationFilter Rendered", new Date().toLocaleTimeString());
 
 	return (
 		<div className={"ButtonBar mb-8"}>
 			{locations.map((location) => (
-				<button
+				<LocationButton
 					key={location}
-					className={
-						store.selectedLocations.includes(location) ? "primary" : "secondary"
-					}
-					onClick={() => store.toggleLocation(location)}
-				>
-					{location}
-				</button>
+					location={location} />
 			))}
 		</div>
 	);
-}
+});
+
+export default LocationFilter;

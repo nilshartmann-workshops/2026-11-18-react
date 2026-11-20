@@ -1,11 +1,12 @@
 import {create} from "zustand/react";
+import {devtools} from "zustand/middleware";
 
 type LocationFilterStore = {
 	selectedLocations: string[]
 	toggleLocation(location: string): void
 }
 
-export const  useLocationFilterStore = create<LocationFilterStore>()( (setState, getState) => {
+export const useLocationFilterStore = create<LocationFilterStore>()( devtools((setState, getState) => {
 	return {
 		selectedLocations: ["Wohnzimmer"],
 
@@ -19,4 +20,4 @@ export const  useLocationFilterStore = create<LocationFilterStore>()( (setState,
 			})
 		}
 	}
-});
+}));
