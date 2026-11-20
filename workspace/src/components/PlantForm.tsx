@@ -1,6 +1,8 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useState } from "react";
 import { z } from "zod";
 
+import { PlantSchema } from "../types.ts";
 import IntervalSelector from "./IntervalSelector.tsx";
 
 const locations = [
@@ -31,8 +33,27 @@ export default function PlantForm() {
   const [lastWatered, setLastWatered] = useState("");
   const [errors, setErrors] = useState<PlantFormErrors>({});
 
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    async mutationFn(data: PlantFormState) {
+      const response = await fetch("http://localhost:7200/api/plants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error(`Speichern fehlgeschlagen: ${response.status}`);
+      }
+      return PlantSchema.parse(await response.json());
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["plants", "list"] });
+    },
+  });
+
   const handleSave = (data: PlantFormState) => {
-    console.log("Daten", data);
+    mutation.mutate(data);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -117,10 +138,20 @@ export default function PlantForm() {
         <button type={"button"} className={"secondary"} onClick={handleReset}>
           Eingaben löschen 🧹
         </button>
-        <button type={"submit"} className={"primary"}>
+        <button
+          type={"submit"}
+          className={"primary"}
+          disabled={mutation.isPending}
+        >
           Pflanze hinzufügen 🌱
         </button>
       </div>
+      {mutation.isError && (
+        <div className={"error-message"}>Speichern fehlgeschlagen</div>
+      )}
+      {mutation.isSuccess && (
+        <div className={"success-message"}>Pflanze angelegt</div>
+      )}
     </form>
   );
 }
